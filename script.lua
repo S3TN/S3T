@@ -2,14 +2,254 @@ local Library = loadstring(game:HttpGet("https://luacrack.site/index.php/araujoz
 
 local Window = Library:CreateWindow({
     Title = "🌚Eclipse Hub🌑",
-    Desc = "By:A r a u j o",
-    Image = "rbxassetid://112518061635682"
+    Desc = "Complete Blox Fruits",
+    Image = "rbxassetid://105245380363493"
 })
 
-local Tab1 = Window:AddTab("Main", "🏠") 
-local Section1 = Tab1:AddLeftGroupbox("Auto Farm")
+local Tab1 = Window:AddTab("Info / Discord", "rbxassetid://7733960981") 
+local Section1 = Tab1:AddLeftGroupbox("Community")
 
-Section1:AddToggle("FarmLevel", {
+Section1:AddLabel("🎮 Eclipse Hub - Blox Fruits")
+Section1:AddLabel("⚡ Version: 3.0")
+Section1:AddLabel("👑 Developed by: Eclipse Team")
+Section1:AddSeperator("📱 Social")
+
+Section1:AddButton({
+    Title = "📌 Join Discord",
+    Callback = function()
+        setclipboard("https://discord.gg/59v9rx6p")
+        Library:Notify({
+            Title = "Discord",
+            Desc = "Link copied to clipboard!",
+            Duration = 3
+        })
+    end
+})
+
+Section1:AddButton({
+    Title = "📋 Copy Discord Link",
+    Callback = function()
+        setclipboard("https://discord.gg/59v9rx6p")
+        Library:Notify({
+            Title = "Link Copied",
+            Desc = "Paste in your browser to join Discord",
+            Duration = 3
+        })
+    end
+})
+
+Section1:AddSeperator("📊 Information")
+
+Section1:AddLabel("🌍 World: " .. (World1 and "World 1" or World2 and "World 2" or "World 3"))
+Section1:AddLabel("📈 Level: " .. Lv)
+Section1:AddLabel("💰 Beli: " .. plr.Data.Beli.Value)
+Section1:AddLabel("💎 Fragments: " .. plr.Data.Fragments.Value)
+
+local Tab2 = Window:AddTab("Settings", "rbxassetid://7733954611")
+local Section2 = Tab2:AddLeftGroupbox("Combat Settings")
+
+Section2:AddDropdown("SelectWeapon", {
+    Title = "Select Weapon Type",
+    Values = {"Melee","Sword","Blox Fruit","Gun"},
+    Default = "Melee",
+    Callback = function(Value)
+        _G.ChooseWP = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.ChooseWP == "Melee" then
+                for _,v in pairs(plr.Backpack:GetChildren()) do
+                    if v.ToolTip == "Melee" then
+                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+                            _G.SelectWeapon = v.Name              
+                        end
+                    end
+                end
+            elseif _G.ChooseWP == "Sword" then     
+                for _,v in pairs(plr.Backpack:GetChildren()) do
+                    if v.ToolTip == "Sword" then
+                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+                            _G.SelectWeapon = v.Name              
+                        end
+                    end
+                end
+            elseif _G.ChooseWP == "Gun" then     
+                for _,v in pairs(plr.Backpack:GetChildren()) do
+                    if v.ToolTip == "Gun" then
+                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+                            _G.SelectWeapon = v.Name              
+                        end
+                    end
+                end
+            elseif _G.ChooseWP == "Blox Fruit" then     
+                for _,v in pairs(plr.Backpack:GetChildren()) do
+                    if v.ToolTip == "Blox Fruit" then
+                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
+                            _G.SelectWeapon = v.Name		                    
+                        end
+                    end
+                end        
+            end
+        end)
+    end
+end)
+
+Section2:AddToggle("AutoAttack", {
+    Title = "Auto Attack (M1)",
+    Default = true,
+    Callback = function(Value)
+        _G.Seriality = Value
+    end
+})
+
+Section2:AddToggle("BringMob", {
+    Title = "Bring Mobs",
+    Default = true,
+    Callback = function(Value)
+        _B = Value
+    end
+})
+
+Section2:AddToggle("AutoBuso", {
+    Title = "Auto Buso Haki",
+    Default = true,
+    Callback = function(Value)
+        Boud = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if Boud then
+                local _HasBuso = {"HasBuso","Buso"}
+                if not plr.Character:FindFirstChild(_HasBuso[1]) then replicated.Remotes.CommF_:InvokeServer(_HasBuso[2]) end
+            end
+        end)
+    end
+end)
+
+Section2:AddToggle("RandomCFrame", {
+    Title = "Random CFrame",
+    Default = false,
+    Callback = function(Value)
+        RandomCFrame = Value
+    end
+})
+
+Section2:AddToggle("AntiAFK", {
+    Title = "Anti AFK",
+    Default = true,
+    Callback = function(Value)
+        _G.AntiAFK = Value
+    end
+})
+
+plr.Idled:connect(function()
+    vim2:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    vim2:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+Section2:AddSeperator("Stats Allocation")
+
+Section2:AddSlider({
+    Title = "Stats Amount",
+    Min = 1,
+    Max = 100,
+    Default = 10,
+    Callback = function(Value)
+        pSats = Value
+    end
+})
+
+Section2:AddToggle("AutoMeleeStat", {
+    Title = "Auto Melee",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Melee = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Melee then statsSetings("Melee",pSats) end
+        end)
+    end
+end)
+
+Section2:AddToggle("AutoDefenseStat", {
+    Title = "Auto Defense",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Defense = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Defense then statsSetings("Defense",pSats) end
+        end)
+    end
+end)
+
+Section2:AddToggle("AutoSwordStat", {
+    Title = "Auto Sword",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Sword = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Sword then statsSetings("Sword",pSats) end
+        end)
+    end
+end)
+
+Section2:AddToggle("AutoGunStat", {
+    Title = "Auto Gun",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Gun = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Gun then statsSetings("Gun",pSats) end
+        end)
+    end
+end)
+
+Section2:AddToggle("AutoFruitStat", {
+    Title = "Auto Blox Fruit",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_DevilFruit = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_DevilFruit then statsSetings("Devil",pSats) end
+        end)
+    end
+end)
+
+local Tab3 = Window:AddTab("Main", "rbxassetid://7733920644")
+local Section3 = Tab3:AddLeftGroupbox("Auto Farm")
+
+Section3:AddToggle("FarmLevel", {
     Title = "Auto Farm Level",
     Default = false,
     Callback = function(Value)
@@ -48,7 +288,7 @@ spawn(function()
     end
 end)
 
-Section1:AddToggle("FarmNearest", {
+Section3:AddToggle("FarmNearest", {
     Title = "Auto Farm Nearest",
     Default = false,
     Callback = function(Value)
@@ -72,7 +312,7 @@ spawn(function()
     end
 end)
 
-Section1:AddToggle("FactoryRaid", {
+Section3:AddToggle("FactoryRaid", {
     Title = "Auto Factory Raid",
     Default = false,
     Callback = function(Value)
@@ -98,7 +338,7 @@ spawn(function()
     end
 end)
 
-Section1:AddToggle("PirateRaid", {
+Section3:AddToggle("PirateRaid", {
     Title = "Auto Pirate Raid",
     Default = false,
     Callback = function(Value)
@@ -136,9 +376,9 @@ spawn(function()
     end
 end)
 
-Section1:AddSeperator("Boss Farm")
+Section3:AddSeperator("Boss Farm")
 
-Section1:AddDropdown("SelectBoss", {
+Section3:AddDropdown("SelectBoss", {
     Title = "Select Boss",
     Values = Boss,
     Default = Boss[1] or "No Boss",
@@ -147,7 +387,7 @@ Section1:AddDropdown("SelectBoss", {
     end
 })
 
-Section1:AddToggle("AutoBoss", {
+Section3:AddToggle("AutoBoss", {
     Title = "Auto Boss",
     Default = false,
     Callback = function(Value)
@@ -170,9 +410,9 @@ spawn(function()
     end
 end)
 
-Section1:AddSeperator("Material Farm")
+Section3:AddSeperator("Material Farm")
 
-Section1:AddDropdown("SelectMaterial", {
+Section3:AddDropdown("SelectMaterial", {
     Title = "Select Material",
     Values = MaterialList,
     Default = MaterialList[1] or "No Material",
@@ -181,7 +421,7 @@ Section1:AddDropdown("SelectMaterial", {
     end
 })
 
-Section1:AddToggle("AutoMaterial", {
+Section3:AddToggle("AutoMaterial", {
     Title = "Auto Material",
     Default = false,
     Callback = function(Value)
@@ -219,10 +459,10 @@ spawn(function()
     end
 end)
 
-local Tab2 = Window:AddTab("Quests", "rbxassetid://7733954611")
-local Section2 = Tab2:AddLeftGroupbox("Legendary Items")
+local Tab4 = Window:AddTab("Quests", "rbxassetid://7733954611")
+local Section4 = Tab4:AddLeftGroupbox("Legendary Items")
 
-Section2:AddToggle("AutoSaber", {
+Section4:AddToggle("AutoSaber", {
     Title = "Auto Saber Sword",
     Default = false,
     Callback = function(Value)
@@ -307,7 +547,7 @@ spawn(function()
     end
 end)
 
-Section2:AddToggle("AutoPole", {
+Section4:AddToggle("AutoPole", {
     Title = "Auto Pole V1",
     Default = false,
     Callback = function(Value)
@@ -330,7 +570,7 @@ spawn(function()
     end
 end)
 
-Section2:AddToggle("AutoPoleV2", {
+Section4:AddToggle("AutoPoleV2", {
     Title = "Auto Pole V2",
     Default = false,
     Callback = function(Value)
@@ -366,10 +606,147 @@ spawn(function()
     end
 end)
 
-local Tab3 = Window:AddTab("Melee", "rbxassetid://7733920644")
-local Section3 = Tab3:AddLeftGroupbox("Fighting Styles")
+Section4:AddToggle("AutoYama", {
+    Title = "Auto Yama",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Yama = Value
+    end
+})
 
-Section3:AddToggle("AutoSuperhuman", {
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Yama then
+                if replicated.Remotes.CommF_:InvokeServer("EliteHunter", "Progress") < 30 then
+                    _G.FarmEliteHunt = true
+                elseif replicated.Remotes.CommF_:InvokeServer("EliteHunter", "Progress") > 30 then
+                    _G.FarmEliteHunt = false
+                    if (workspace.Map.Waterfall.SealedKatana.Handle.Position-plr.Character.HumanoidRootPart.Position).Magnitude >= 20 then
+                        _tp(workspace.Map.Waterfall.SealedKatana.Handle.CFrame)
+                        local zx = GetConnectionEnemies("Ghost")
+                        if zx then
+                            repeat wait() Attack.Kill(zx,_G.Auto_Yama) until zx.Humanoid.Health <= 0 or not zx.Parent or not _G.Auto_Yama               
+                            fireclickdetector(workspace.Map.Waterfall.SealedKatana.Handle.ClickDetector)
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+Section4:AddToggle("AutoTushita", {
+    Title = "Auto Tushita",
+    Default = false,
+    Callback = function(Value)
+        _G.Auto_Tushita = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.Auto_Tushita then
+                if workspace.Map.Turtle:FindFirstChild("TushitaGate") then
+                    if not GetBP("Holy Torch") then
+                        _tp(CFrame.new(5148.03613, 162.352493, 910.548218))
+                        wait(0.7)
+                    else
+                        EquipWeapon("Holy Torch")
+                        task.wait(1)
+                        repeat task.wait() _tp(CFrame.new(-10752, 417, -9366)) until not _G.Auto_Tushita or (CFrame.new(-10752, 417, -9366).Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 10
+                        wait(.7)
+                        repeat task.wait() _tp(CFrame.new(-11672, 334, -9474)) until not _G.Auto_Tushita or (CFrame.new(-11672, 334, -9474).Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 10
+                        wait(.7)
+                        repeat task.wait() _tp(CFrame.new(-12132, 521, -10655)) until not _G.Auto_Tushita or (CFrame.new(-12132, 521, -10655).Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 10
+                        wait(.7)
+                        repeat task.wait() _tp(CFrame.new(-13336, 486, -6985)) until not _G.Auto_Tushita or (CFrame.new(-13336, 486, -6985).Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 10
+                        wait(.7)
+                        repeat task.wait() _tp(CFrame.new(-13489, 332, -7925)) until not _G.Auto_Tushita or (CFrame.new(-13489, 332, -7925).Position - plr.Character.HumanoidRootPart.Position).Magnitude <= 10
+                    end
+                else
+                    local v = GetConnectionEnemies("Longma")
+                    if v then repeat task.wait() Attack.Kill(v,_G.Auto_Tushita) until v.Humanoid.Health <= 0 or not _G.Auto_Tushita or not v.Parent
+                    else 
+                        if replicated:FindFirstChild("Longma") then _tp(replicated:FindFirstChild("Longma").HumanoidRootPart.CFrame * CFrame.new(0,40,0)) end
+                    end                     
+                end
+            end
+        end)
+    end
+end)
+
+Section4:AddToggle("AutoCDK", {
+    Title = "Auto CDK",
+    Default = false,
+    Callback = function(Value)
+        _G.CDK = Value
+    end
+})
+
+spawn(function()    
+    while wait(Sec) do
+        pcall(function()
+            if _G.CDK then
+                replicated.Remotes.CommF_:InvokeServer("CDKQuest","Progress","Good")
+                replicated.Remotes.CommF_:InvokeServer("CDKQuest","Progress","Evil")
+                replicated.Remotes.CommF_:InvokeServer("CDKQuest","StartTrial","Boss")
+                local v = GetConnectionEnemies("Cursed Skeleton Boss")
+                if v then
+                    repeat wait()
+                        if plr.Character:FindFirstChild("Yama") or plr.Backpack:FindFirstChild("Yama") then EquipWeapon("Yama")
+                        elseif plr.Character:FindFirstChild("Tushita") or plr.Backpack:FindFirstChild("Tushita") then EquipWeapon("Tushita")                                    
+                        end _tp(v.HumanoidRootPart.CFrame * CFrame.new(0,20,0))
+                    until not _G.CDK or not v.Parent or v.Humanoid.Health <= 0                                
+                else
+                    _tp(CFrame.new(-12318.193359375, 601.9518432617188, -6538.662109375)) wait(.5)
+                    _tp(workspace.Map.Turtle.Cursed.BossDoor.CFrame)
+                end
+            end
+        end)
+    end
+end)
+
+Section4:AddSeperator("Elite Hunter")
+
+Section4:AddToggle("AutoElite", {
+    Title = "Auto Elite Hunter",
+    Default = false,
+    Callback = function(Value)
+        _G.FarmEliteHunt = Value
+    end
+})
+
+spawn(function()
+    while wait(Sec) do
+        pcall(function()
+            if _G.FarmEliteHunt then
+                if plr.PlayerGui.Main.Quest.Visible == true then
+                    if string.find(plr.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Diablo") or string.find(plr.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Urban") or string.find(plr.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Deandre") then
+                        for i,v in pairs(replicated:GetChildren()) do
+                            if string.find(v.Name,"Diablo") or string.find(v.Name,"Urban") or string.find(v.Name,"Deandre") then
+                                _tp(v.HumanoidRootPart.CFrame)				
+                            end	
+                        end
+                        for i,v in pairs(Enemies:GetChildren()) do
+                            if (string.find(v.Name,"Diablo") or string.find(v.Name,"Urban") or string.find(v.Name,"Deandre")) and Attack.Alive(v) then
+                                repeat wait() Attack.Kill(v, _G.FarmEliteHunt) until not _G.FarmEliteHunt or plr.PlayerGui.Main.Quest.Visible == false or not v.Parent or v.Humanoid.Health <=0
+                            end
+                        end           
+                    end        
+                else
+                    replicated.Remotes.CommF_:InvokeServer("EliteHunter")
+                end
+            end
+        end)
+    end
+end)
+
+local Tab5 = Window:AddTab("Melee", "rbxassetid://7733920644")
+local Section5 = Tab5:AddLeftGroupbox("Fighting Styles")
+
+Section5:AddToggle("AutoSuperhuman", {
     Title = "Auto Superhuman",
     Default = false,
     Callback = function(Value)
@@ -405,7 +782,7 @@ spawn(function()
     end
 end)
 
-Section3:AddToggle("AutoDeathStep", {
+Section5:AddToggle("AutoDeathStep", {
     Title = "Auto Death Step",
     Default = false,
     Callback = function(Value)
@@ -440,7 +817,7 @@ spawn(function()
     end
 end)
 
-Section3:AddToggle("AutoSharkman", {
+Section5:AddToggle("AutoSharkman", {
     Title = "Auto Sharkman",
     Default = false,
     Callback = function(Value)
@@ -478,7 +855,7 @@ spawn(function()
     end
 end)
 
-Section3:AddToggle("AutoElectricClaw", {
+Section5:AddToggle("AutoElectricClaw", {
     Title = "Auto Electric Claw",
     Default = false,
     Callback = function(Value)
@@ -504,7 +881,7 @@ spawn(function()
     end
 end)
 
-Section3:AddToggle("AutoDragonTalon", {
+Section5:AddToggle("AutoDragonTalon", {
     Title = "Auto Dragon Talon",
     Default = false,
     Callback = function(Value)
@@ -527,7 +904,7 @@ spawn(function()
     end
 end)
 
-Section3:AddToggle("AutoGodhuman", {
+Section5:AddToggle("AutoGodhuman", {
     Title = "Auto Godhuman",
     Default = false,
     Callback = function(Value)
@@ -579,10 +956,10 @@ spawn(function()
     end
 end)
 
-local Tab4 = Window:AddTab("Sea Events", "rbxassetid://7733960981")
-local Section4 = Tab4:AddLeftGroupbox("Sea Creatures")
+local Tab6 = Window:AddTab("Sea Events", "rbxassetid://7733960981")
+local Section6 = Tab6:AddLeftGroupbox("Sea Creatures")
 
-Section4:AddToggle("AutoShark", {
+Section6:AddToggle("AutoShark", {
     Title = "Auto Shark",
     Default = false,
     Callback = function(Value)
@@ -590,7 +967,7 @@ Section4:AddToggle("AutoShark", {
     end
 })
 
-Section4:AddToggle("AutoTerrorShark", {
+Section6:AddToggle("AutoTerrorShark", {
     Title = "Auto Terror Shark",
     Default = false,
     Callback = function(Value)
@@ -598,7 +975,7 @@ Section4:AddToggle("AutoTerrorShark", {
     end
 })
 
-Section4:AddToggle("AutoSeaBeast", {
+Section6:AddToggle("AutoSeaBeast", {
     Title = "Auto Sea Beast",
     Default = false,
     Callback = function(Value)
@@ -606,7 +983,7 @@ Section4:AddToggle("AutoSeaBeast", {
     end
 })
 
-Section4:AddToggle("AutoLeviathan", {
+Section6:AddToggle("AutoLeviathan", {
     Title = "Auto Leviathan",
     Default = false,
     Callback = function(Value)
@@ -625,9 +1002,9 @@ spawn(function()
     end
 end)
 
-Section4:AddSeperator("Boats")
+Section6:AddSeperator("Boats")
 
-Section4:AddDropdown("SelectBoat", {
+Section6:AddDropdown("SelectBoat", {
     Title = "Select Boat",
     Values = {"Guardian","PirateGrandBrigade","MarineGrandBrigade","PirateBrigade","MarineBrigade","PirateSloop","MarineSloop","Beast Hunter"},
     Default = "Guardian",
@@ -636,7 +1013,7 @@ Section4:AddDropdown("SelectBoat", {
     end
 })
 
-Section4:AddToggle("AutoSail", {
+Section6:AddToggle("AutoSail", {
     Title = "Auto Sail Boat",
     Default = false,
     Callback = function(Value)
@@ -680,10 +1057,10 @@ spawn(function()
     end
 end)
 
-local Tab5 = Window:AddTab("Mirage", "rbxassetid://7733954611")
-local Section5 = Tab5:AddLeftGroupbox("Mirage Island")
+local Tab7 = Window:AddTab("Mirage", "rbxassetid://7733954611")
+local Section7 = Tab7:AddLeftGroupbox("Mirage Island")
 
-Section5:AddToggle("FindMirage", {
+Section7:AddToggle("FindMirage", {
     Title = "Auto Find Mirage",
     Default = false,
     Callback = function(Value)
@@ -724,7 +1101,7 @@ spawn(function()
     end
 end)
 
-Section5:AddToggle("AutoGear", {
+Section7:AddToggle("AutoGear", {
     Title = "Auto Collect Gear",
     Default = false,
     Callback = function(Value)
@@ -746,7 +1123,7 @@ spawn(function()
     end)
 end)
 
-Section5:AddToggle("AutoSkullGuitar", {
+Section7:AddToggle("AutoSkullGuitar", {
     Title = "Auto Skull Guitar",
     Default = false,
     Callback = function(Value)
@@ -868,9 +1245,9 @@ spawn(function()
     end
 end)
 
-Section5:AddSeperator("Race V4")
+Section7:AddSeperator("Race V4")
 
-Section5:AddToggle("AutoTrainV4", {
+Section7:AddToggle("AutoTrainV4", {
     Title = "Auto Train V4",
     Default = false,
     Callback = function(Value)
@@ -900,7 +1277,7 @@ spawn(function()
     end
 end)
 
-Section5:AddToggle("AutoTrials", {
+Section7:AddToggle("AutoTrials", {
     Title = "Auto Complete Trials",
     Default = false,
     Callback = function(Value)
@@ -988,10 +1365,10 @@ spawn(function()
     end
 end)
 
-local Tab6 = Window:AddTab("Drago", "rbxassetid://7733920644")
-local Section6 = Tab6:AddLeftGroupbox("Dojo Quests")
+local Tab8 = Window:AddTab("Drago", "rbxassetid://7733920644")
+local Section8 = Tab8:AddLeftGroupbox("Dojo Quests")
 
-Section6:AddToggle("AutoDojo", {
+Section8:AddToggle("AutoDojo", {
     Title = "Auto Dojo Trainer",
     Default = false,
     Callback = function(Value)
@@ -1083,7 +1460,7 @@ spawn(function()
     end
 end)
 
-Section6:AddToggle("AutoDragonHunter", {
+Section8:AddToggle("AutoDragonHunter", {
     Title = "Auto Dragon Hunter",
     Default = false,
     Callback = function(Value)
@@ -1151,7 +1528,7 @@ spawn(function()
     end
 end)
 
-Section6:AddToggle("AutoDragoV1", {
+Section8:AddToggle("AutoDragoV1", {
     Title = "Auto Drago V1",
     Default = false,
     Callback = function(Value)
@@ -1178,7 +1555,7 @@ spawn(function()
     end
 end)
 
-Section6:AddToggle("AutoDragoV2", {
+Section8:AddToggle("AutoDragoV2", {
     Title = "Auto Drago V2",
     Default = false,
     Callback = function(Value)
@@ -1212,7 +1589,7 @@ spawn(function()
     end
 end)
 
-Section6:AddToggle("AutoDragoV3", {
+Section8:AddToggle("AutoDragoV3", {
     Title = "Auto Drago V3",
     Default = false,
     Callback = function(Value)
@@ -1237,10 +1614,10 @@ spawn(function()
     end
 end)
 
-local Tab7 = Window:AddTab("Prehistoric", "rbxassetid://7733960981")
-local Section7 = Tab7:AddLeftGroupbox("Volcanic Island")
+local Tab9 = Window:AddTab("Prehistoric", "rbxassetid://7733960981")
+local Section9 = Tab9:AddLeftGroupbox("Volcanic Island")
 
-Section7:AddToggle("FindPrehistoric", {
+Section9:AddToggle("FindPrehistoric", {
     Title = "Auto Find Prehistoric",
     Default = false,
     Callback = function(Value)
@@ -1290,7 +1667,7 @@ spawn(function()
     end
 end)
 
-Section7:AddToggle("AutoPatchVolcano", {
+Section9:AddToggle("AutoPatchVolcano", {
     Title = "Auto Patch Volcano",
     Default = false,
     Callback = function(Value)
@@ -1356,7 +1733,7 @@ spawn(function()
     end
 end)
 
-Section7:AddToggle("AutoCollectBones", {
+Section9:AddToggle("AutoCollectBones", {
     Title = "Auto Collect Dino Bones",
     Default = false,
     Callback = function(Value)
@@ -1378,7 +1755,7 @@ spawn(function()
     end
 end)
 
-Section7:AddToggle("AutoCollectEggs", {
+Section9:AddToggle("AutoCollectEggs", {
     Title = "Auto Collect Dragon Eggs",
     Default = false,
     Callback = function(Value)
@@ -1396,10 +1773,10 @@ spawn(function()
     end
 end)
 
-local Tab8 = Window:AddTab("Raids", "rbxassetid://7733954611")
-local Section8 = Tab8:AddLeftGroupbox("Raid Settings")
+local Tab10 = Window:AddTab("Raids", "rbxassetid://7733954611")
+local Section10 = Tab10:AddLeftGroupbox("Raid Settings")
 
-Section8:AddDropdown("SelectChip", {
+Section10:AddDropdown("SelectChip", {
     Title = "Select Chip",
     Values = {"Flame","Ice","Quake","Light","Dark","String","Rumble","Magma","Human: Buddha","Sand","Bird: Phoenix","Dough"},
     Default = "Flame",
@@ -1408,7 +1785,7 @@ Section8:AddDropdown("SelectChip", {
     end
 })
 
-Section8:AddToggle("AutoStartRaid", {
+Section10:AddToggle("AutoStartRaid", {
     Title = "Auto Start Raid",
     Default = false,
     Callback = function(Value)
@@ -1436,7 +1813,7 @@ spawn(function()
     end
 end)
 
-Section8:AddToggle("AutoCompleteRaid", {
+Section10:AddToggle("AutoCompleteRaid", {
     Title = "Auto Complete Raid",
     Default = false,
     Callback = function(Value)
@@ -1472,7 +1849,7 @@ spawn(function()
     end)
 end)
 
-Section8:AddToggle("AutoAwakening", {
+Section10:AddToggle("AutoAwakening", {
     Title = "Auto Awakening",
     Default = false,
     Callback = function(Value)
@@ -1491,216 +1868,15 @@ spawn(function()
     end
 end)
 
-local Tab9 = Window:AddTab("Settings", "rbxassetid://7733920644")
-local Section9 = Tab9:AddLeftGroupbox("Combat Settings")
-
-Section9:AddDropdown("SelectWeapon", {
-    Title = "Select Weapon Type",
-    Values = {"Melee","Sword","Blox Fruit","Gun"},
-    Default = "Melee",
-    Callback = function(Value)
-        _G.ChooseWP = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.ChooseWP == "Melee" then
-                for _,v in pairs(plr.Backpack:GetChildren()) do
-                    if v.ToolTip == "Melee" then
-                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-                            _G.SelectWeapon = v.Name              
-                        end
-                    end
-                end
-            elseif _G.ChooseWP == "Sword" then     
-                for _,v in pairs(plr.Backpack:GetChildren()) do
-                    if v.ToolTip == "Sword" then
-                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-                            _G.SelectWeapon = v.Name              
-                        end
-                    end
-                end
-            elseif _G.ChooseWP == "Gun" then     
-                for _,v in pairs(plr.Backpack:GetChildren()) do
-                    if v.ToolTip == "Gun" then
-                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-                            _G.SelectWeapon = v.Name              
-                        end
-                    end
-                end
-            elseif _G.ChooseWP == "Blox Fruit" then     
-                for _,v in pairs(plr.Backpack:GetChildren()) do
-                    if v.ToolTip == "Blox Fruit" then
-                        if plr.Backpack:FindFirstChild(tostring(v.Name)) then
-                            _G.SelectWeapon = v.Name		                    
-                        end
-                    end
-                end        
-            end
-        end)
-    end
-end)
-
-Section9:AddToggle("AutoAttack", {
-    Title = "Auto Attack (M1)",
-    Default = true,
-    Callback = function(Value)
-        _G.Seriality = Value
-    end
-})
-
-Section9:AddToggle("BringMob", {
-    Title = "Bring Mobs",
-    Default = true,
-    Callback = function(Value)
-        _B = Value
-    end
-})
-
-Section9:AddToggle("AutoBuso", {
-    Title = "Auto Buso Haki",
-    Default = true,
-    Callback = function(Value)
-        Boud = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if Boud then
-                local _HasBuso = {"HasBuso","Buso"}
-                if not plr.Character:FindFirstChild(_HasBuso[1]) then replicated.Remotes.CommF_:InvokeServer(_HasBuso[2]) end
-            end
-        end)
-    end
-end)
-
-Section9:AddToggle("RandomCFrame", {
-    Title = "Random CFrame",
-    Default = false,
-    Callback = function(Value)
-        RandomCFrame = Value
-    end
-})
-
-Section9:AddToggle("AntiAFK", {
-    Title = "Anti AFK",
-    Default = true,
-    Callback = function(Value)
-        _G.AntiAFK = Value
-    end
-})
-
-plr.Idled:connect(function()
-    vim2:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    wait(1)
-    vim2:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-end)
-
-Section9:AddSeperator("Stats Allocation")
-
-Section9:AddSlider({
-    Title = "Stats Amount",
-    Min = 1,
-    Max = 100,
-    Default = 10,
-    Callback = function(Value)
-        pSats = Value
-    end
-})
-
-Section9:AddToggle("AutoMeleeStat", {
-    Title = "Auto Melee",
-    Default = false,
-    Callback = function(Value)
-        _G.Auto_Melee = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.Auto_Melee then statsSetings("Melee",pSats) end
-        end)
-    end
-end)
-
-Section9:AddToggle("AutoDefenseStat", {
-    Title = "Auto Defense",
-    Default = false,
-    Callback = function(Value)
-        _G.Auto_Defense = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.Auto_Defense then statsSetings("Defense",pSats) end
-        end)
-    end
-end)
-
-Section9:AddToggle("AutoSwordStat", {
-    Title = "Auto Sword",
-    Default = false,
-    Callback = function(Value)
-        _G.Auto_Sword = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.Auto_Sword then statsSetings("Sword",pSats) end
-        end)
-    end
-end)
-
-Section9:AddToggle("AutoGunStat", {
-    Title = "Auto Gun",
-    Default = false,
-    Callback = function(Value)
-        _G.Auto_Gun = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.Auto_Gun then statsSetings("Gun",pSats) end
-        end)
-    end
-end)
-
-Section9:AddToggle("AutoFruitStat", {
-    Title = "Auto Blox Fruit",
-    Default = false,
-    Callback = function(Value)
-        _G.Auto_DevilFruit = Value
-    end
-})
-
-spawn(function()
-    while wait(Sec) do
-        pcall(function()
-            if _G.Auto_DevilFruit then statsSetings("Devil",pSats) end
-        end)
-    end
-end)
-
-local Tab10 = Window:AddTab("Misc", "rbxassetid://7733960981")
-local Section10 = Tab10:AddLeftGroupbox("Teleports")
+local Tab11 = Window:AddTab("Misc", "rbxassetid://7733960981")
+local Section11 = Tab11:AddLeftGroupbox("Teleports")
 
 local Location = {}
 for i,v in pairs(workspace["_WorldOrigin"].Locations:GetChildren()) do  
     table.insert(Location ,v.Name)
 end
 
-Section10:AddDropdown("TeleportIsland", {
+Section11:AddDropdown("TeleportIsland", {
     Title = "Select Island",
     Values = Location,
     Default = Location[1] or "Island",
@@ -1709,7 +1885,7 @@ Section10:AddDropdown("TeleportIsland", {
     end
 })
 
-Section10:AddToggle("AutoTeleport", {
+Section11:AddToggle("AutoTeleport", {
     Title = "Teleport to Island",
     Default = false,
     Callback = function(Value)
@@ -1718,7 +1894,7 @@ Section10:AddToggle("AutoTeleport", {
 })
 
 spawn(function()
-    if Value then
+    if _G.Teleport then
         for i,v in pairs(workspace["_WorldOrigin"].Locations:GetChildren()) do
             if v.Name == _G.Island then
                 repeat wait()
@@ -1729,23 +1905,23 @@ spawn(function()
     end
 end)
 
-Section10:AddButton({
+Section11:AddButton({
     Title = "Rejoin Server",
     Callback = function()
         game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
     end
 })
 
-Section10:AddButton({
+Section11:AddButton({
     Title = "Hop Server",
     Callback = function()
         Hop()
     end
 })
 
-Section10:AddSeperator("ESP Options")
+Section11:AddSeperator("ESP Options")
 
-Section10:AddToggle("ESPPlayers", {
+Section11:AddToggle("ESPPlayers", {
     Title = "ESP Players",
     Default = false,
     Callback = function(Value)
@@ -1759,7 +1935,7 @@ spawn(function()
     end
 end)
 
-Section10:AddToggle("ESPFruits", {
+Section11:AddToggle("ESPFruits", {
     Title = "ESP Fruits",
     Default = false,
     Callback = function(Value)
@@ -1773,7 +1949,7 @@ spawn(function()
     end
 end)
 
-Section10:AddToggle("ESPChests", {
+Section11:AddToggle("ESPChests", {
     Title = "ESP Chests",
     Default = false,
     Callback = function(Value)
@@ -1787,7 +1963,7 @@ spawn(function()
     end
 end)
 
-Section10:AddToggle("ESPIslands", {
+Section11:AddToggle("ESPIslands", {
     Title = "ESP Islands",
     Default = false,
     Callback = function(Value)
@@ -1801,9 +1977,9 @@ spawn(function()
     end
 end)
 
-Section10:AddSeperator("Graphics")
+Section11:AddSeperator("Graphics")
 
-Section10:AddToggle("RTXMode", {
+Section11:AddToggle("RTXMode", {
     Title = "RTX Mode",
     Default = false,
     Callback = function(Value)
@@ -1850,7 +2026,7 @@ spawn(function()
     end
 end)
 
-Section10:AddToggle("FullBright", {
+Section11:AddToggle("FullBright", {
     Title = "Full Bright",
     Default = false,
     Callback = function(Value)
@@ -1874,19 +2050,90 @@ spawn(function()
     end
 end)
 
-Section10:AddButton({
+Section11:AddButton({
     Title = "Low CPU Mode",
     Callback = function()
         LowCpu()
     end
 })
 
-Section10:AddButton({
+Section11:AddButton({
     Title = "Unload UI",
     Callback = function()
         Library:DestroyUI()
     end
 })
+
+-- Services
+local CoreGui = game:GetService("CoreGui")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local UserInputService = game:GetService("UserInputService")
+
+-- ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ControlButtonGUI"
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- ImageButton com novo ID
+local ToggleButton = Instance.new("ImageButton")
+ToggleButton.Size = UDim2.new(0, 50, 0, 50)
+ToggleButton.Position = UDim2.new(0.15, 0, 0.15, 0)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Image = "rbxassetid://112518061635682"
+ToggleButton.Parent = ScreenGui
+
+-- UICorner para bordas arredondadas
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(1, 0)
+Corner.Parent = ToggleButton
+
+-- Clique envia tecla End
+ToggleButton.MouseButton1Click:Connect(function()
+    VirtualInputManager:SendKeyEvent(true, "End", false, game)
+    VirtualInputManager:SendKeyEvent(false, "End", false, game)
+end)
+
+-- Arrasto funcional
+local dragging = false
+local dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    ToggleButton.Position = UDim2.new(
+        startPos.X.Scale,
+        startPos.X.Offset + delta.X,
+        startPos.Y.Scale,
+        startPos.Y.Offset + delta.Y
+    )
+end
+
+ToggleButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = ToggleButton.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+ToggleButton.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
 
 Library:Notify({
     Title = "Eclipse Hub",
